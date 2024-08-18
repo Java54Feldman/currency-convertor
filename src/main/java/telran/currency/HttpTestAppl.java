@@ -12,7 +12,7 @@ public class HttpTestAppl {
 	public static void main(String[] args) throws Exception{
 		HttpClient httpClient = HttpClient.newHttpClient();
 		HttpRequest request = HttpRequest.newBuilder(
-			new URI("https://data.fixer.io/api/latest?access_key=81ebf276e1ed808b58591b5fb05c34eb"))
+			new URI("https://data.fixer.io/api/latest?access_key=80e4b2df2b69e4d9dbc0894827c31186"))
 			.build();
 		HttpResponse<String> response = 
 				httpClient.send(request, BodyHandlers.ofString());

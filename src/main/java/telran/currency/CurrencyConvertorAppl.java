@@ -1,10 +1,19 @@
 package telran.currency;
 
+import java.util.*;
+import telran.currency.service.FixerApiPerDay;
+import telran.view.*;
+
 public class CurrencyConvertorAppl {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-
+		FixerApiPerDay fixerApi = new FixerApiPerDay();
+		CurrencyItems currencyItems = new CurrencyItems(fixerApi);
+		List<Item> menuItems = currencyItems.getItems();
+		menuItems.add(Item.ofExit());
+		Menu menu = new Menu("Currency converter application", menuItems.toArray(Item[]::new));
+		menu.perform(new SystemInputOutput());
+		
 	}
 
 }

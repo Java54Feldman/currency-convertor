@@ -32,9 +32,5 @@ public abstract class AbstractCurrencyConvertor implements CurrencyConvertor {
 	public HashSet<String> getAllCodes() {
 		return new HashSet<String>(rates.keySet());
 	}
-	@Override
-	public int getMaxNumberOfCurrencies() {
-		return rates.size();
-	}
-
+	
 }

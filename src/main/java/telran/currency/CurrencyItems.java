@@ -5,30 +5,27 @@ import telran.currency.service.CurrencyConvertor;
 import telran.view.*;
 
 public class CurrencyItems {
-	private final CurrencyConvertor currencyConvertor;
+	private static CurrencyConvertor currencyConvertor;
 
-    public CurrencyItems(CurrencyConvertor currencyConvertor) {
-        this.currencyConvertor = currencyConvertor;
-    }
-
-	public List<Item> getItems() {
+	public static List<Item> getItems(CurrencyConvertor currencyConvertor) {
+		CurrencyItems.currencyConvertor = currencyConvertor;
 		Item[] items = { Item.of("Display strongest currencies", io -> strongestCurrencies(io, true)),
 				Item.of("Display weakest currencies", io -> strongestCurrencies(io, false)),
-				Item.of("Convert currencies", this::convert),
-				Item.of("Get all codes", this::getAllCodes),
+				Item.of("Convert currencies", CurrencyItems::convert),
+				Item.of("Get all codes", CurrencyItems::getAllCodes),
 				Item.ofExit()};
 		return new ArrayList<>(List.of(items));
 	}
-	private void strongestCurrencies(InputOutput io, boolean strongest) {
+	private static void strongestCurrencies(InputOutput io, boolean strongest) {
         int amount = (int) Math.floor(io.readNumberRange(
                 "Enter the number of currencies: ",
                 "Wrong input",
-                1, currencyConvertor.getMaxNumberOfCurrencies()));
+                1, Integer.MAX_VALUE));
         List<String> res = strongest ? currencyConvertor.strongestCurrencies(amount) : currencyConvertor.weakestCurrencies(amount);
         io.writeLine(strongest ? "Top strongest currencies: " : "Top weakest currencies: ");
         res.forEach(io::writeLine);
     }
-	private void convert(InputOutput io) {
+	private static void convert(InputOutput io) {
 		HashSet<String> codes = currencyConvertor.getAllCodes();
 		String codeFrom = io.readStringOptions("Enter currency ISO code from which to convert", "Wrong input", codes);
 		String codeTo = io.readStringOptions("Enter currency ISO code to convert to", "Wrong input", codes);
@@ -36,7 +33,7 @@ public class CurrencyItems {
 		double res = currencyConvertor.convert(codeFrom, codeTo, amount);
 		io.writeLine("The result is " + String.format("%.2f", res));
 	}
-	private void getAllCodes(InputOutput io) {
+	private static void getAllCodes(InputOutput io) {
 		Set<String> codes = currencyConvertor.getAllCodes();
 		codes.stream().sorted().forEach(io::writeLine);
 	}

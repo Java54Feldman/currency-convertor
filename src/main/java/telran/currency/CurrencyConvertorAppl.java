@@ -8,8 +8,7 @@ public class CurrencyConvertorAppl {
 
 	public static void main(String[] args) {
 		FixerApiPerDay fixerApi = new FixerApiPerDay();
-		CurrencyItems currencyItems = new CurrencyItems(fixerApi);
-		List<Item> menuItems = currencyItems.getItems();
+		List<Item> menuItems = CurrencyItems.getItems(fixerApi);
 		Menu menu = new Menu("Currency converter application", menuItems.toArray(Item[]::new));
 		menu.perform(new SystemInputOutput());
 		

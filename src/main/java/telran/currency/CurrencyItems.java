@@ -7,20 +7,17 @@ import telran.view.*;
 public class CurrencyItems {
 	private static CurrencyConvertor currencyConvertor;
 
-	public static List<Item> getItems(CurrencyConvertor currencyConvertor) {
+	public static Item[] getItems(CurrencyConvertor currencyConvertor) {
 		CurrencyItems.currencyConvertor = currencyConvertor;
 		Item[] items = { Item.of("Display strongest currencies", io -> strongestCurrencies(io, true)),
 				Item.of("Display weakest currencies", io -> strongestCurrencies(io, false)),
 				Item.of("Convert currencies", CurrencyItems::convert),
 				Item.of("Get all codes", CurrencyItems::getAllCodes),
 				Item.ofExit()};
-		return new ArrayList<>(List.of(items));
+		return items;
 	}
 	private static void strongestCurrencies(InputOutput io, boolean strongest) {
-        int amount = (int) Math.floor(io.readNumberRange(
-                "Enter the number of currencies: ",
-                "Wrong input",
-                1, Integer.MAX_VALUE));
+        int amount = io.readNumberRange("Enter the number of currencies: ", "Wrong input", 1, Integer.MAX_VALUE).intValue();
         List<String> res = strongest ? currencyConvertor.strongestCurrencies(amount) : currencyConvertor.weakestCurrencies(amount);
         io.writeLine(strongest ? "Top strongest currencies: " : "Top weakest currencies: ");
         res.forEach(io::writeLine);

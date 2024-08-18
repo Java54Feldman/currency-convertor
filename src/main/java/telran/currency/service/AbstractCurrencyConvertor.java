@@ -9,7 +9,7 @@ public abstract class AbstractCurrencyConvertor implements CurrencyConvertor {
 	@Override
 	public List<String> strongestCurrencies(int amount) {
 		return rates.entrySet().stream()
-				.sorted(Map.Entry.comparingByValue())
+				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
 				.limit(amount)
 				.map(entry -> entry.getKey() + " : " + entry.getValue())
 				.toList();
@@ -20,7 +20,7 @@ public abstract class AbstractCurrencyConvertor implements CurrencyConvertor {
 		return rates.entrySet().stream()
 				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
 				.limit(amount)
-				.map(entry -> entry.getKey() + " : " + entry.getValue())
+				.map(entry -> entry.getKey() + " : " + String.format("%.2f", entry.getValue()))
 				.toList();
 	}
 

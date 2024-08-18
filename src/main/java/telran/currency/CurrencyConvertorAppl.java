@@ -10,7 +10,6 @@ public class CurrencyConvertorAppl {
 		FixerApiPerDay fixerApi = new FixerApiPerDay();
 		CurrencyItems currencyItems = new CurrencyItems(fixerApi);
 		List<Item> menuItems = currencyItems.getItems();
-		menuItems.add(Item.ofExit());
 		Menu menu = new Menu("Currency converter application", menuItems.toArray(Item[]::new));
 		menu.perform(new SystemInputOutput());
 		

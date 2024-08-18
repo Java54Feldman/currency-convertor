@@ -14,7 +14,9 @@ public class CurrencyItems {
 	public List<Item> getItems() {
 		Item[] items = { Item.of("Display strongest currencies", io -> strongestCurrencies(io, true)),
 				Item.of("Display weakest currencies", io -> strongestCurrencies(io, false)),
-				Item.of("Convert currencies", this::convert) };
+				Item.of("Convert currencies", this::convert),
+				Item.of("Get all codes", this::getAllCodes),
+				Item.ofExit()};
 		return new ArrayList<>(List.of(items));
 	}
 	private void strongestCurrencies(InputOutput io, boolean strongest) {
@@ -33,5 +35,9 @@ public class CurrencyItems {
 		int amount = io.readInt("Enter amount of money", "Wrong input");
 		double res = currencyConvertor.convert(codeFrom, codeTo, amount);
 		io.writeLine("The result is " + String.format("%.2f", res));
+	}
+	private void getAllCodes(InputOutput io) {
+		Set<String> codes = currencyConvertor.getAllCodes();
+		codes.stream().sorted().forEach(io::writeLine);
 	}
 }

@@ -2,35 +2,42 @@ package telran.currency.service;
 
 import java.util.*;
 
-public abstract class AbstractCurrencyConvertor implements CurrencyConvertor {
-	protected Map<String, Double> rates; 
-	//key - currency ISO code
-	//value - amount of code's units in 1 EUR
+public class AbstractCurrencyConvertor implements CurrencyConvertor {
+protected Map<String, Double> rates; //key - currency ISO code;
+//value - amount of code's units in 1 EUR
 	@Override
-	public List<String> strongestCurrencies(int amount) {
-		return rates.entrySet().stream()
-				.sorted(Map.Entry.comparingByValue(Comparator.naturalOrder()))
-				.limit(amount)
-				.map(entry -> entry.getKey() + " : " + entry.getValue())
-				.toList();
+	public List<String> weakestCurrencies(int amount) {
+		
+		return strongestWeakest(amount, Comparator.reverseOrder());
 	}
 
 	@Override
-	public List<String> weakestCurrencies(int amount) {
+	public List<String> strongestCurrencies(int amount) {
+		
+		return strongestWeakest(amount, Comparator.naturalOrder());
+	}
+
+	private List<String> strongestWeakest(int amount,
+			Comparator<Double> comparator) {
+		
 		return rates.entrySet().stream()
-				.sorted(Map.Entry.comparingByValue(Comparator.reverseOrder()))
-				.limit(amount)
-				.map(entry -> entry.getKey() + " : " + String.format("%.2f", entry.getValue()))
-				.toList();
+        .sorted(Map.Entry.comparingByValue(comparator))
+        .limit(amount)
+        .map(Map.Entry::getKey)
+        .toList();
 	}
 
 	@Override
 	public double convert(String codeFrom, String codeTo, int amount) {
-		return rates.get(codeTo) / rates.get(codeFrom) * amount;
+		double rateFrom = rates.get(codeFrom);
+		double rateTo = rates.get(codeTo);
+		return rateTo / rateFrom * amount;
 	}
+
 	@Override
 	public HashSet<String> getAllCodes() {
-		return new HashSet<String>(rates.keySet());
+		
+		return new HashSet<>(rates.keySet());
 	}
-	
+
 }

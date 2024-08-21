@@ -3,17 +3,15 @@ package telran.currency.service;
 import java.util.*;
 
 public class AbstractCurrencyConvertor implements CurrencyConvertor {
-protected Map<String, Double> rates; //key - currency ISO code;
-//value - amount of code's units in 1 EUR
+	protected Map<String, Double> rates; //key - currency ISO code;
+	//value - amount of code's units in 1 EUR
 	@Override
 	public List<String> weakestCurrencies(int amount) {
-		
 		return strongestWeakest(amount, Comparator.reverseOrder());
 	}
 
 	@Override
 	public List<String> strongestCurrencies(int amount) {
-		
 		return strongestWeakest(amount, Comparator.naturalOrder());
 	}
 
@@ -36,7 +34,6 @@ protected Map<String, Double> rates; //key - currency ISO code;
 
 	@Override
 	public HashSet<String> getAllCodes() {
-		
 		return new HashSet<>(rates.keySet());
 	}
 

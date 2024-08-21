@@ -12,7 +12,7 @@ public class CurrencyConvertorAppl {
 		List<Item> items = CurrencyItems.getItems(convertor);
 		Menu menu = new Menu("Currencies Application", items.toArray(Item[]::new));
 		menu.perform(new SystemInputOutput());
-		
+
 	}
 
 }
